@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "eigen-squared"
+version = "0.1.0"
+description = ""
+authors = ["Luke Thompson <luke-a-thompson@outlook.com>"]
+readme = "README.md"
+packages = [{include = "eigen_squared"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^2.0.0"
+numba = "^0.60.0"
+tqdm = "^2.2.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.poetry.scripts]
+eigen-squared = "eigen_squared.main:main"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
