@@ -20,7 +20,7 @@ def is_square(matrix: NumericArray) -> bool:
     return matrix.shape[0] == matrix.shape[1]
 
 def is_invertible(matrix: NumericArray, method: InvertibleMethods = InvertibleMethods.rank) -> bool:
-    """Check if the matrix is invertible."""
+    """Check if the matrix is invertible and non-singular."""
     match method:
         case InvertibleMethods.determinant:
             return np.linalg.det(matrix) != 0

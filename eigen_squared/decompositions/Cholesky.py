@@ -2,6 +2,7 @@ import numpy as np
 from enum import Enum
 # from utils import threshold
 from eigen_squared.eigen_types import NumericArray, CholeskyResult
+from eigen_squared.matrix_checks import is_symmetric, is_positive_definite
 
 class CholeskyMethods(str, Enum):
     cholesky_crout = "CC"
@@ -10,11 +11,18 @@ class CholeskyMethods(str, Enum):
 class CholeskyDecomposition:
     @staticmethod
     def decompose(A: NumericArray, method: CholeskyMethods = CholeskyMethods.cholesky_banachiewicz) -> CholeskyResult:
+        if not is_symmetric(A):
+            raise ValueError("Matrix must be symmetric")
+        if not is_positive_definite(A):
+            raise ValueError("Matrix must be positive definite")
+
         match method:
             case CholeskyMethods.cholesky_crout:
                 L = CholeskyDecomposition._Cholesky_Crout(A)
             case CholeskyMethods.cholesky_banachiewicz:
                 L = CholeskyDecomposition._Cholesky_Banachieqicz(A)
+            case _:
+                raise ValueError(f"Invalid Cholesky method. Choose from: {', '.join([m.value for m in CholeskyMethods])}")
 
         return CholeskyResult(L, L.T)
 
