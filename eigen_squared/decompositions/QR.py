@@ -9,7 +9,8 @@ class QR_Methods(str, Enum):
     givens_rotation = "GR"
 
 class QRDecomposition:
-    def decompose(A: NumericArray, method: QR_Methods = "MGS") -> tuple[np.ndarray, np.ndarray] | tuple[np.ndarray, np.ndarray, np.ndarray]:
+    @staticmethod
+    def decompose(A: NumericArray, method: QR_Methods = QR_Methods.modified_gram_schmidt) -> QRResult:
         """
         Decomposes a matrix A into its QR factorization.
 
@@ -199,6 +200,7 @@ class QRDecomposition:
 
         return QRResult(Q, R)
 
+    @staticmethod
     def reconstruct(Q: NumericArray, R: NumericArray) -> np.ndarray:
         """
         Reconstruct the original matrix from the QR decomposition.

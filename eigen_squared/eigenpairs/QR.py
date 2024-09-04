@@ -2,12 +2,12 @@ import numpy as np
 from eigen_squared.decompositions.QR import QRDecomposition, QR_Methods
 from eigen_squared.shifts import MatrixShifts, ShiftTypes
 from eigen_squared.eigen_types import NumericArray, EigenpairsResult, QRResult
-from eigen_squared.norms import FrobeniusNorms as FN
+from eigen_squared.norms import FrobeniusNorms as FN, FrobeniusTypes
 from eigen_squared.matrix_ops import pivot_columns
 from tqdm import tqdm
 
 class QREigenSolver:
-    def __init__(self, A: NumericArray, max_iter: int = 5e4, tolerance: float = 1e-9, method: QR_Methods = QR_Methods.householder_reflection, shift: ShiftTypes = ShiftTypes.wilkinson, pivot: bool = False):
+    def __init__(self, A: NumericArray, max_iter: float = 5e4, tolerance: float = 1e-9, method: QR_Methods = QR_Methods.householder_reflection, shift: ShiftTypes = ShiftTypes.wilkinson, pivot: bool = False):
         self.A = A
         if pivot:
             self.A, self.P = pivot_columns(self.A)
@@ -35,7 +35,7 @@ class QREigenSolver:
 
             Q_accumulated = Q_accumulated @ Q
 
-            if FN.frobenius_norm(Ak, "non_diag") < self.tolerance:
+            if FN.frobenius_norm(Ak, FrobeniusTypes.NoDiagonal) < self.tolerance:
                 print(f"Converged after {k + 1} iterations.")
                 break
         else:

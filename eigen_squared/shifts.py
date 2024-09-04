@@ -2,7 +2,7 @@ import numpy as np
 from typing import Optional
 from eigen_squared import matrix_checks as MC
 from eigen_squared.matrix_ops import calculate_rayleigh_quotient
-from eigen_squared.eigen_types import NumericArray
+from eigen_squared.eigen_types import NumericArray, GershgorinResult
 from enum import Enum
 
 class ShiftTypes(str, Enum):
@@ -12,6 +12,7 @@ class ShiftTypes(str, Enum):
     rayleigh_quotient = "rayleigh_quotient"
 
 class MatrixShifts:
+    @staticmethod
     def shift(A: NumericArray, shift_type: ShiftTypes, sigma: Optional[float] = None) -> float:
         match shift_type:
             case ShiftTypes.simple:
@@ -27,16 +28,19 @@ class MatrixShifts:
             case _:
                 raise ValueError(f"Invalid shift type. Choose from: {', '.join([shift.value for shift in ShiftTypes])}")
 
+    @staticmethod
     def _simple_shift(A: NumericArray) -> float:
         if not MC.is_square(A):
             raise ValueError("Matrix A must be square to calculate simple shift.")
         return A[-1, -1]
 
+    @staticmethod
     def _spectral_shift(A: NumericArray, sigma: float) -> float:
         if not MC.is_square(A):
             raise ValueError("Matrix A must be square to calculate spectral shift.")
         return sigma
 
+    @staticmethod
     def _wilkinson_shift(A: NumericArray) -> float:
         if MC.is_vector(A):
             raise ValueError("Input must be a matrix to calculate the Wilkinson shift.")
@@ -45,6 +49,7 @@ class MatrixShifts:
         mu = A[-1, -1] - sign * A[-1, -2]**2 / (abs(d) + np.sqrt(d**2 + A[-1, -2]**2))
         return mu
 
+    @staticmethod
     def _rayleigh_quotient_shift(A: NumericArray, x: NumericArray) -> float:
         """
         Calculates the Rayleigh quotient shift for a given matrix A and vector x.
@@ -62,7 +67,7 @@ class MatrixShifts:
         return calculate_rayleigh_quotient(A, x)
 
 # TODO: Move
-def gershgorin_discs(A: NumericArray) -> np.ndarray:
+def gershgorin_discs(A: NumericArray) -> GershgorinResult:
     """
     Calculate the Gershgorin discs for a given square matrix. Every eigenvalue lies within the union of these discs.
 
@@ -78,4 +83,4 @@ def gershgorin_discs(A: NumericArray) -> np.ndarray:
 
     centers = np.diag(A)
     radii = np.sum(abs(A), axis=1) - centers
-    return centers, radii
+    return GershgorinResult(centers, radii)

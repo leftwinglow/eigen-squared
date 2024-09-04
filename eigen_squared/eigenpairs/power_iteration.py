@@ -11,8 +11,7 @@ class Power_Methods(str, Enum):
     inverse_power_iteration = "IPI"
 
 class PowerEigenSolver:
-    def __init__(self, A: NumericArray, max_iter: int = 5e4, tolerance: float = 1e-9, method: Power_Methods = Power_Methods.inverse_power_iteration, shift: ShiftTypes = ShiftTypes.wilkinson) -> None:
-
+    def __init__(self, A: NumericArray, max_iter: float = 5e4, tolerance: float = 1e-9, method: Power_Methods = Power_Methods.inverse_power_iteration, shift: ShiftTypes = ShiftTypes.wilkinson) -> None:
         self.A = A
         self.method = method
         self.shift = shift

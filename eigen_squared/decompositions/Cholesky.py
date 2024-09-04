@@ -8,7 +8,8 @@ class CholeskyMethods(str, Enum):
     cholesky_banachiewicz = "CB"
 
 class CholeskyDecomposition:
-    def decompose(A: NumericArray, method: CholeskyMethods = "CB") -> CholeskyResult:
+    @staticmethod
+    def decompose(A: NumericArray, method: CholeskyMethods = CholeskyMethods.cholesky_banachiewicz) -> CholeskyResult:
         match method:
             case CholeskyMethods.cholesky_crout:
                 L = CholeskyDecomposition._Cholesky_Crout(A)
@@ -17,6 +18,7 @@ class CholeskyDecomposition:
 
         return CholeskyResult(L, L.T)
 
+    @staticmethod
     def _Cholesky_Banachieqicz(A: NumericArray) -> np.ndarray:
         n = A.shape[0]
         L = np.zeros_like(A)
@@ -34,6 +36,7 @@ class CholeskyDecomposition:
 
         return L
 
+    @staticmethod
     def _Cholesky_Crout(A: NumericArray) -> np.ndarray:
         n = A.shape[0]
         L = np.zeros_like(A)

@@ -7,7 +7,7 @@ from tqdm import tqdm
 from eigen_squared.eigenpairs.eigenvector_guesses import EigenvectorGuesses, EigenvectorGuessMethods
 
 class RayleighEigenSolver:
-    def __init__(self, A: NumericArray, max_iter: int = 5e4, tolerance: float = 1e-9, shift: ShiftTypes = ShiftTypes.wilkinson, initial_guess_method: EigenvectorGuessMethods = EigenvectorGuessMethods.last_column) -> None:
+    def __init__(self, A: NumericArray, max_iter: float = 5e4, tolerance: float = 1e-9, shift: ShiftTypes = ShiftTypes.wilkinson, initial_guess_method: EigenvectorGuessMethods = EigenvectorGuessMethods.last_column) -> None:
         if not is_invertible(A):
             raise ValueError("Matrix A must be invertible to calculate eigenpairs.")
 

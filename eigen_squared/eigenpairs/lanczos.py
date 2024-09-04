@@ -7,7 +7,7 @@ from eigen_squared.eigen_types import EigenpairsResult
 
 
 class LanczosEigenSolver:
-    def __init__(self, A: NumericArray, max_iter: int = 5e5, tolerance: float = 1e-9,
+    def __init__(self, A: NumericArray, max_iter: float = 5e5, tolerance: float = 1e-9,
                  initial_guess_method: EigenvectorGuessMethods = EigenvectorGuessMethods.last_column) -> None:
         if not is_invertible(A):
             raise ValueError("Matrix A must be invertible to calculate eigenpairs.")

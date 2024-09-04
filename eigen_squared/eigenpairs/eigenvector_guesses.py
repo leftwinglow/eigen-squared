@@ -22,28 +22,35 @@ class EigenvectorGuesses:
                 return EigenvectorGuesses._guess_mean_column(A)
             case EigenvectorGuessMethods.random_vector:
                 return EigenvectorGuesses._guess_random_vector(A)
+            case _:
+                raise ValueError(f"Invalid eigenvector guess method. Choose from: {', '.join([t.value for t in EigenvectorGuessMethods])}")
 
+    @staticmethod
     def _guess_first_column(A: np.ndarray) -> np.ndarray:
         """Guess the first eigenvector."""
         n = A[:, 0]
         return n
 
+    @staticmethod
     def _guess_last_column(A: np.ndarray) -> np.ndarray:
         """Guess the last eigenvector."""
         n = A[:, -1]
         return n
 
+    @staticmethod
     def _guess_random_column(A: np.ndarray) -> np.ndarray:
         """Guess a random eigenvector."""
         rand_col = np.random.randint(A.shape[1])
         n = A[:, rand_col]
         return n
 
+    @staticmethod
     def _guess_mean_column(A: np.ndarray) -> np.ndarray:
         """Guess the mean of the eigenvectors."""
         n = np.mean(A, axis=1)
         return n
 
+    @staticmethod
     def _guess_random_vector(A: np.ndarray) -> np.ndarray:
         """Guess a random eigenvector."""
         n = np.random.rand(A.shape[0])

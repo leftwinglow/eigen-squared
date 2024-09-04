@@ -10,7 +10,6 @@ class PosDefMethods(str, Enum):
 class InvertibleMethods(str, Enum):
     determinant = "det"
     rank = "rank"
-    eigenvalues = "eigenvalues"
 
 def is_vector(vector: NumericArray) -> bool:
     """Check if the input is a vector."""
@@ -27,8 +26,6 @@ def is_invertible(matrix: NumericArray, method: InvertibleMethods = InvertibleMe
             return np.linalg.det(matrix) != 0
         case InvertibleMethods.rank:
             return np.linalg.matrix_rank(matrix) == matrix.shape[0]
-        case InvertibleMethods.eigenvalues:
-            return np.all(np.linalg.eigvals(matrix) != 0)  # TODO: Use my eigenpairs function
         case _:
             raise ValueError(f"Invalid invertible method. Choose from: {', '.join([m.value for m in InvertibleMethods])}")
 
